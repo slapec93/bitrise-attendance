@@ -1,0 +1,69 @@
+# Gopkg.toml example
+#
+# Refer to https://golang.github.io/dep/docs/Gopkg.toml.html
+# for detailed Gopkg.toml documentation.
+#
+# required = ["github.com/user/thing/cmd/thing"]
+# ignored = ["github.com/user/project/pkgX", "bitbucket.org/user/project/pkgA/pkgY"]
+#
+# [[constraint]]
+#   name = "github.com/user/project"
+#   version = "1.0.0"
+#
+# [[constraint]]
+#   name = "github.com/user/project2"
+#   branch = "dev"
+#   source = "github.com/myfork/project2"
+#
+# [[override]]
+#   name = "github.com/x/y"
+#   version = "2.4.0"
+#
+# [prune]
+#   non-go = false
+#   go-tests = true
+#   unused-packages = true
+
+# Heroku specific
+# https://github.com/heroku/heroku-buildpack-go#dep-specifics
+[metadata.heroku]
+  root-package = "github.com/slapec93/bitrise-attendance"
+  go-version = "go1.11"
+  ensure = "false"
+
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/bitrise-io/go-utils"
+
+[[constraint]]
+  name = "github.com/gorilla/mux"
+  version = "1.6.2"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/justinas/alice"
+
+[[constraint]]
+  name = "github.com/pkg/errors"
+  version = "0.8.0"
+
+[[constraint]]
+  name = "github.com/rs/cors"
+  version = "1.6.0"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/slapec93/bitrise-api-utils"
+
+[[constraint]]
+  branch = "master"
+  name = "golang.org/x/oauth2"
+
+[[constraint]]
+  branch = "master"
+  name = "google.golang.org/api"
+
+[prune]
+  go-tests = true
+  unused-packages = true
