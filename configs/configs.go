@@ -9,7 +9,6 @@ import (
 	"os"
 
 	"golang.org/x/oauth2"
-	"golang.org/x/oauth2/google"
 )
 
 const (
@@ -21,7 +20,6 @@ const (
 
 // Model ...
 type Model struct {
-	Client  *http.Client
 	Port    string
 	EnvMode string
 }
@@ -87,14 +85,14 @@ func CreateNewConfig() Model {
 	// if err != nil {
 	// 	log.Fatalf("Unable to read client secret file: %v", err)
 	// }
-	b := []byte(os.Getenv("CREDENTIALS"))
+	// b := []byte(os.Getenv("CREDENTIALS"))
 
 	// If modifying these scopes, delete your previously saved token.json.
-	config, err := google.ConfigFromJSON(b, "https://www.googleapis.com/auth/spreadsheets")
-	if err != nil {
-		log.Fatalf("Unable to parse client secret file to config: %v", err)
-	}
-	client := getClient(config)
+	// config, err := google.ConfigFromJSON(b, "https://www.googleapis.com/auth/spreadsheets")
+	// if err != nil {
+	// 	log.Fatalf("Unable to parse client secret file to config: %v", err)
+	// }
+	// client := getClient(config)
 
 	envmode := ServerEnvModeDev
 	if os.Getenv("ENV_MODE") == ServerEnvModeProd {
@@ -102,7 +100,7 @@ func CreateNewConfig() Model {
 	}
 
 	return Model{
-		Client:  client,
+		// Client:  client,
 		Port:    os.Getenv("PORT"),
 		EnvMode: envmode,
 	}

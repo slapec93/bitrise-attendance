@@ -2,3 +2,4 @@ credentials.json
 token.json
 gin-bin
 .gows.user.yml
+.env

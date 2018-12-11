@@ -7,28 +7,17 @@ import (
 	"github.com/rs/cors"
 	"github.com/slapec93/bitrise-api-utils/middleware"
 	"github.com/slapec93/bitrise-attendance/configs"
-	"github.com/slapec93/bitrise-attendance/sheets"
 )
 
 // MiddlewareProvider ...
 type MiddlewareProvider struct {
-	Config       configs.Model
-	SheetsClient sheets.Client
+	Config configs.Model
 }
 
 func createSetConfigMiddleware(config configs.Model) func(http.Handler) http.Handler {
 	return func(h http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			ctx := ContextWithConfig(r.Context(), config)
-			h.ServeHTTP(w, r.WithContext(ctx))
-		})
-	}
-}
-
-func createSetSheetsClientMiddleware(sheetsClient sheets.Client) func(http.Handler) http.Handler {
-	return func(h http.Handler) http.Handler {
-		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			ctx := ContextWithSheetsClient(r.Context(), sheetsClient)
 			h.ServeHTTP(w, r.WithContext(ctx))
 		})
 	}
@@ -47,8 +36,8 @@ func (m MiddlewareProvider) CommonMiddleware() alice.Chain {
 	}
 
 	return commonMiddleware.Append(
+		MiddlewareUserAuthByTokenInHeaderHandler,
 		middleware.CreateOptionsRequestTerminatorMiddleware(),
 		createSetConfigMiddleware(m.Config),
-		createSetSheetsClientMiddleware(m.SheetsClient),
 	)
 }
