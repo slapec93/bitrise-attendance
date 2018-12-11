@@ -1,8 +1,8 @@
 FROM quay.io/bitriseio/bitrise-base
 
 # envs
-ENV PROJ_NAME=bitrise-welcome
-ENV BITRISE_SOURCE_DIR="/bitrise/go/src/github.com/bitrise-team/$PROJ_NAME"
+ENV PROJ_NAME=bitrise-attendance
+ENV BITRISE_SOURCE_DIR="/bitrise/go/src/github.com/slapec93/$PROJ_NAME"
 
 # Get go tools
 RUN go get github.com/codegangsta/gin \
