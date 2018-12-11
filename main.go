@@ -27,27 +27,6 @@ func writeNameToSpreadSheet(service *sheets.Service, spreadSheetID, name, sheetN
 	return nil
 }
 
-// func main() {
-// 	// If modifying these scopes, delete your previously saved token.json.
-// 	client := configs.CreateNewConfig()
-// 	// client := getClient(config)
-
-// 	srv, err := sheets.New(client.Client)
-// 	if err != nil {
-// 		log.Fatalf("Unable to retrieve Sheets client: %v", err)
-// 	}
-
-// 	// Prints the names and majors of students in a sample spreadsheet:
-// 	// https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
-// 	spreadsheetID := "1J0tqdA4frZ0khRUB05fPRC0vBsi_W-8kIgf6iYkoK0c"
-// 	// copyRange := "Sheet2!A1:F44"
-
-// 	values, err := srv.Spreadsheets.Values.Get(spreadsheetID, "data!names").Do()
-// 	for _, name := range values.Values {
-// 		fmt.Printf("%#v", name[0])
-// 	}
-// }
-
 func mainImplementation() error {
 	conf := configs.CreateNewConfig()
 
