@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -84,10 +83,11 @@ func saveToken(path string, token *oauth2.Token) {
 
 // CreateNewConfig ...
 func CreateNewConfig() Model {
-	b, err := ioutil.ReadFile("credentials.json")
-	if err != nil {
-		log.Fatalf("Unable to read client secret file: %v", err)
-	}
+	// b, err := ioutil.ReadFile("credentials.json")
+	// if err != nil {
+	// 	log.Fatalf("Unable to read client secret file: %v", err)
+	// }
+	b := []byte(os.Getenv("CREDENTIALS"))
 
 	// If modifying these scopes, delete your previously saved token.json.
 	config, err := google.ConfigFromJSON(b, "https://www.googleapis.com/auth/spreadsheets")
