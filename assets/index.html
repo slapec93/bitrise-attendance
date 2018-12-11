@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script defer src="https://use.fontawesome.com/releases/v5.6.0/js/all.js" integrity="sha384-z9ZOvGHHo21RqN5De4rfJMoAxYpaVoiYhuJXPyVmSs8yn20IE3PmBM534CffwSJI" crossorigin="anonymous"></script>
+    <style>
+      body{
+        width: 80%;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Bitrise Attendance Sheet Handler</h1>
+    <ol class="list-group">
+      <li class="list-group-item">1. <a target="_blank" id="token-page-url" class="btn btn-primary">Get my access token</a></li>
+      <li class="list-group-item">2. Paste the token here: <input type="text" id="access-token" /></li>
+      <li class="list-group-item">3. Paste the id of the spreadsheet here: <input type="text" id="spreadsheet-id" /></li>
+      <li class="list-group-item">4. Paste the name of the base sheet here: <input type="text" id="sheet-name" /></li>
+      <li class="list-group-item">5. Which month is it? (YYYY / Mon): <input type="text" id="month" /></li>
+      <li class="list-group-item">
+        6. <button type="button" class="btn btn-primary" onclick="open_new_month()">Click me and check the magic :)</button>
+        <span style="font-size: 20px; color: green;display: none;" id="done">
+          <i class="fas fa-check"></i>
+        </span>
+      </li>
+    </ol>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script>
+      (function() {
+        fetch('/auth')
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(myJson) {
+          document.getElementById("token-page-url").href = myJson['message'];
+        });
+      })();
+      function open_new_month() {
+        fetch('/open-new-month', {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            "Authorization": "token " + document.getElementById("access-token").value
+          },
+          body: JSON.stringify({
+            "spreadsheet_id": document.getElementById("spreadsheet-id").value,
+            "sheet_name": document.getElementById("sheet-name").value,
+            "month": document.getElementById("month").value
+          })
+        })
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(myJson) {
+          document.getElementById("done").style.display = "block";
+        });
+      }
+    </script>
+  </body>
+</html>

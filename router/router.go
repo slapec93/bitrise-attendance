@@ -1,6 +1,8 @@
 package router
 
 import (
+	"net/http"
+
 	"github.com/gorilla/mux"
 	"github.com/slapec93/bitrise-attendance/configs"
 	"github.com/slapec93/bitrise-attendance/service"
@@ -17,6 +19,7 @@ func New(config configs.Model) *mux.Router {
 		Config: config,
 	}
 
+	r.Handle("/", http.FileServer(http.Dir("./assets")))
 	r.Handle("/auth", middlewareProvider.CommonMiddleware().Then(
 		httpresponse.InternalErrHandlerFuncAdapter(service.AuthorizationURL))).Methods("GET", "OPTIONS")
 

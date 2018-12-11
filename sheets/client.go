@@ -88,6 +88,26 @@ func (c Client) WriteNameToSpreadSheet(spreadSheetID, name, sheetName, cell stri
 	return nil
 }
 
+// WriteNameAndDateToSpreadSheet ...
+func (c Client) WriteNameAndDateToSpreadSheet(spreadSheetID, sheetName string, cellsAndValues map[string]string) error {
+	var valueRanges []*gsheets.ValueRange
+	for cell, value := range cellsAndValues {
+		valueRanges = append(valueRanges, &gsheets.ValueRange{
+			Range:  fmt.Sprintf("%s!%s:%s", sheetName, cell, cell),
+			Values: [][]interface{}{[]interface{}{value}},
+		})
+	}
+	updateRequest := gsheets.BatchUpdateValuesRequest{
+		Data:             valueRanges,
+		ValueInputOption: "RAW",
+	}
+	_, err := c.service.Spreadsheets.Values.BatchUpdate(spreadSheetID, &updateRequest).Do()
+	if err != nil {
+		return errors.WithStack(err)
+	}
+	return nil
+}
+
 // GetNameListFromSheet ...
 func (c Client) GetNameListFromSheet(spreadSheetID string) ([]string, error) {
 	values, err := c.service.Spreadsheets.Values.Get(spreadSheetID, "data!names").Do()

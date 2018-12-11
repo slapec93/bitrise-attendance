@@ -13,6 +13,7 @@ import (
 type OpenNewMonthParams struct {
 	SpreadsheetID string `json:"spreadsheet_id"`
 	SheetName     string `json:"sheet_name"`
+	Month         string `json:"month"`
 }
 
 // OpenNewMonth ...
@@ -59,7 +60,10 @@ func OpenNewMonth(w http.ResponseWriter, r *http.Request) error {
 			return errors.WithStack(err)
 		}
 
-		err = client.WriteNameToSpreadSheet(params.SpreadsheetID, name, name, "C9")
+		err = client.WriteNameAndDateToSpreadSheet(params.SpreadsheetID, name, map[string]string{
+			"C9":  name,
+			"C10": params.Month,
+		})
 		if err != nil {
 			return errors.WithStack(err)
 		}
